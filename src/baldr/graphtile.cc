@@ -6,6 +6,7 @@
 #include "baldr/sign.h"
 #include "baldr/tilehierarchy.h"
 #include "filesystem.h"
+#include "config.h"
 #include "midgard/aabb2.h"
 #include "midgard/pointll.h"
 #include "midgard/tiles.h"
@@ -367,6 +368,8 @@ void GraphTile::Initialize(const GraphId& graphid) {
   } else {
     lane_connectivity_size_ = header_->end_offset() - header_->lane_connectivity_offset();
   }
+
+  live_speed_fading_sec_ = config().get<float>("sif.live_speed_fading_sec", 3600);
 
   // For reference - how to use the end offset to set size of an object (that
   // is not fixed size and count).
