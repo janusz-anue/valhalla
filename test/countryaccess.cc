@@ -74,8 +74,7 @@ OSMWay GetWay(uint32_t way_id, sequence<OSMWay>& ways) {
 }
 
 void CountryAccess(const std::string& config_file) {
-  boost::property_tree::ptree conf;
-  rapidjson::read_json(config_file, conf);
+  boost::property_tree::ptree conf = valhalla::config(config_file);
 
   // setup and purge
   GraphReader graph_reader(conf.get_child("mjolnir"));

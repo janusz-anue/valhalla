@@ -25,6 +25,21 @@ public:
   using GraphTileBuilder::EdgeTuple;
   using GraphTileBuilder::EdgeTupleHasher;
   using GraphTileBuilder::GraphTileBuilder;
+
+  test_graph_tile_builder(const std::string& tile_dir,
+                          const GraphId& graphid,
+                          const bool deserialize,
+                          bool serialize_turn_lanes = true)
+      : GraphTileBuilder(init_singleton_before_ctor(tile_dir, graphid, deserialize, serialize_turn_lanes)) {
+  };
+
+  GraphTileBuilder init_singleton_before_ctor(const std::string& tile_dir,
+                          const GraphId& graphid,
+                          const bool deserialize,
+                          bool serialize_turn_lanes = true) {
+    valhalla::config("{}");
+    return GraphTileBuilder(tile_dir, graphid, deserialize, serialize_turn_lanes);
+  }
 };
 
 void assert_tile_equalish(const GraphTile& a,

@@ -1,4 +1,3 @@
-
 #include <cstdint>
 #include <set>
 #include <string>
@@ -13,6 +12,7 @@
 #include "baldr/merge.h"
 #include "baldr/nodeinfo.h"
 #include "baldr/tilehierarchy.h"
+#include "config.h"
 
 #include "test.h"
 
@@ -92,11 +92,11 @@ boost::property_tree::ptree read_json(const std::string& json) {
   return p;
 }
 
-const boost::property_tree::ptree fake_config = read_json("{\"tile_dir\": \"/file/does/not/exist\"}");
+const std::string fake_config = "{\"tile_dir\": \"/file/does/not/exist\"}";
 
 struct test_graph_reader : public vb::GraphReader {
   test_graph_reader(const std::unordered_map<vb::GraphId, graph_tile_ptr>& tiles)
-      : GraphReader(fake_config) {
+      : GraphReader(valhalla::config(fake_config)) {
     for (auto&& it : tiles)
       cache_->Put(it.first, std::move(it.second), 0);
   }
@@ -104,6 +104,9 @@ struct test_graph_reader : public vb::GraphReader {
 
 TEST(EdgeCollapser, TestCollapseEdgeSimple) {
   vb::GraphId base_id = vb::TileHierarchy::GetGraphId(valhalla::midgard::PointLL(0, 0), 0);
+
+  // init config
+  valhalla::config(fake_config);
 
   // simplest graph with a collapsible node:
   //
@@ -153,6 +156,9 @@ TEST(EdgeCollapser, TestCollapseEdgeSimple) {
 
 TEST(EdgeCollapser, TestCollapseEdgeJunction) {
   vb::GraphId base_id = vb::TileHierarchy::GetGraphId(valhalla::midgard::PointLL(0, 0), 0);
+
+  // init config
+  valhalla::config(fake_config);
 
   // simplest graph with a non-collapsible node:
   //
@@ -209,6 +215,9 @@ TEST(EdgeCollapser, TestCollapseEdgeJunction) {
 
 TEST(EdgeCollapser, TestCollapseEdgeChain) {
   vb::GraphId base_id = vb::TileHierarchy::GetGraphId(valhalla::midgard::PointLL(0, 0), 0);
+
+  // init config
+  valhalla::config(fake_config);
 
   // graph with 3 collapsible edges, all chained together. (e.g: think of the
   // middle segment as a bridge).

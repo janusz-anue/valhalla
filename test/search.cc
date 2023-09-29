@@ -58,6 +58,9 @@ void make_tile() {
   using namespace valhalla::mjolnir;
   using namespace valhalla::baldr;
 
+  // init empty config singleton
+  valhalla::config("{}");
+
   // make sure that all the old tiles are gone before trying to make new ones.
   clean_tiles();
 

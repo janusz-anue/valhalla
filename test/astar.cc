@@ -128,12 +128,6 @@ const gurka::relations relations3 = {{{gurka::relation_member{gurka::way_member,
 const vb::GraphId tile_id = vb::TileHierarchy::GetGraphId({.125, .125}, 2);
 gurka::nodelayout node_locations;
 const std::string test_dir = "test/data/fake_tiles_astar";
-const auto fake_conf =
-    test::make_config(test_dir,
-                      {{"mjolnir.admin", VALHALLA_SOURCE_DIR "test/data/netherlands_admin.sqlite"},
-                       {"mjolnir.timezone", VALHALLA_SOURCE_DIR "test/data/not_needed.sqlite"},
-                       {"mjolnir.hierarchy", "false"},
-                       {"mjolnir.shortcuts", "false"}});
 
 void make_tile() {
 
@@ -174,7 +168,12 @@ void make_tile() {
 
   {
     constexpr bool release_osmpbf_memory = false;
-    mjolnir::build_tile_set(fake_conf,
+    mjolnir::build_tile_set(test::make_config(test_dir, {{"mjolnir.admin", VALHALLA_SOURCE_DIR
+                                                          "test/data/netherlands_admin.sqlite"},
+                                                         {"mjolnir.timezone", VALHALLA_SOURCE_DIR
+                                                          "test/data/not_needed.sqlite"},
+                                                         {"mjolnir.hierarchy", "false"},
+                                                         {"mjolnir.shortcuts", "false"}}),
                             {test_dir + "/map1.pbf", test_dir + "/map2.pbf", test_dir + "/map3.pbf"},
                             mjolnir::BuildStage::kInitialize, mjolnir::BuildStage::kValidate,
                             release_osmpbf_memory);
@@ -231,10 +230,7 @@ enum class TrivialPathTest {
 
 std::unique_ptr<vb::GraphReader> get_graph_reader(const std::string& tile_dir) {
   // make the config file
-  std::stringstream json;
-  json << "{ \"tile_dir\": \"" << tile_dir << "\" }";
-  bpt::ptree conf;
-  rapidjson::read_json(json, conf);
+  bpt::ptree conf = valhalla::config(R"({"tile_dir": ")" + tile_dir + R"(" })");
 
   std::unique_ptr<vb::GraphReader> reader(new vb::GraphReader(conf));
   auto tile = reader->GetGraphTile(tile_id);
@@ -1517,7 +1513,7 @@ TEST(Astar, BiDirTrivial) {
   // whole edge based on what percentage of the edge is left between the origin and destination.
 
   // Get access to tiles
-  boost::property_tree::ptree conf;
+  boost::property_tree::ptree conf = valhalla::config("{}");
   conf.put("tile_dir", "test/data/utrecht_tiles");
   conf.put<unsigned long>("mjolnir.id_table_size", 1000);
   vb::GraphReader graph_reader(conf);

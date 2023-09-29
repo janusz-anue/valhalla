@@ -109,11 +109,7 @@ std::string load_binary_file(const std::string& filename) {
 }
 
 boost::property_tree::ptree json_to_pt(const std::string& json) {
-  std::stringstream ss;
-  ss << json;
-  boost::property_tree::ptree pt;
-  rapidjson::read_json(ss, pt);
-  return pt;
+  return valhalla::config(json);
 }
 
 boost::property_tree::ptree make_config(const std::string& path_prefix,
@@ -381,6 +377,9 @@ boost::property_tree::ptree make_config(const std::string& path_prefix,
           "proxy": "ipc://%%/thor"
         },
         "source_to_target_algorithm": "select_optimal"
+      },
+      "sif": {
+        "live_speed_fading_sec": 3600
       }
     }
   )";
@@ -389,14 +388,19 @@ boost::property_tree::ptree make_config(const std::string& path_prefix,
   boost::replace_all(defaults, "%%", path_prefix);
 
   // make ptree and override defaults
+
+  // TODO (Janusz): remove pt and replace with the config singleton, check if any problems arise
   auto pt = json_to_pt(defaults);
+  auto conf = valhalla::config(defaults);
   for (const auto& override : overrides) {
     pt.put(override.first, override.second);
+    conf.put(override.first, override.second);
   }
 
   // remove keys we dont want
   for (const auto& remove : removes) {
     remove_child(pt, remove);
+    remove_child(conf, remove);
   }
 
   return pt;

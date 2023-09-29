@@ -7,6 +7,7 @@
 #include <sstream>
 #include <string>
 
+#include "config.h"
 #include "baldr/rapidjson_utils.h"
 #include "midgard/logging.h"
 #include "midgard/util.h"
@@ -18,11 +19,8 @@ namespace {
 // configuring multiple times is wasteful/ineffectual but not harmful
 // TODO: make this threadsafe just in case its abused
 const boost::property_tree::ptree configure(const std::string& config) {
-  boost::property_tree::ptree pt;
+  boost::property_tree::ptree pt = valhalla::config(config);
   try {
-    // parse the config and configure logging
-    rapidjson::read_json(config, pt);
-
     auto logging_subtree = pt.get_child_optional("mjolnir.logging");
     if (logging_subtree) {
       auto logging_config = valhalla::midgard::ToMap<const boost::property_tree::ptree&,
