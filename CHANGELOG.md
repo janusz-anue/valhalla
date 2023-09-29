@@ -9,6 +9,7 @@
    * FIXED: broken links on the optimized route API page [#4260](https://github.com/valhalla/valhalla/pull/4260)
    * FIXED: remove clearing of headings while calculating a matrix [#4288](https://github.com/valhalla/valhalla/pull/4288)
 * **Enhancement**
+   * ADDED: Make livespeed fading time configurable in valhalla.json [#4177](https://github.com/valhalla/valhalla/pull/4177)
    * UPDATED: French translations, thanks to @xlqian [#4159](https://github.com/valhalla/valhalla/pull/4159)
    * CHANGED: -j flag for multithreaded executables to override mjolnir.concurrency [#4168](https://github.com/valhalla/valhalla/pull/4168)
    * CHANGED: moved the argparse boilerplate code to a private header which all programs can share [#4169](https://github.com/valhalla/valhalla/pull/4169)
