@@ -270,8 +270,8 @@ config = {
         'max_exclude_polygons_length': 10000,
         'max_distance_disable_hierarchy_culling': 0,
     },
-    'sif': {
-        'live_speed_fading_sec': 3600
+    'baldr': {
+        'live_speed_fading_sec': 3600,
     },
     'statsd': {
         'host': Optional(str),
@@ -552,7 +552,7 @@ help_text = {
         'batch_size': 'Approximate maximum size in bytes of each batch of stats to send to statsd',
         'tags': 'List of tags to include with each metric',
     },
-    'sif': {
+    'baldr': {
         'live_speed_fading_sec': 'The time (in seconds) over which the live speed will be faded into the traffic speed sources',
     },
 }
