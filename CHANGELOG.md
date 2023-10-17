@@ -9,7 +9,6 @@
    * FIXED: broken links on the optimized route API page [#4260](https://github.com/valhalla/valhalla/pull/4260)
    * FIXED: remove clearing of headings while calculating a matrix [#4288](https://github.com/valhalla/valhalla/pull/4288)
 * **Enhancement**
-   * ADDED: Make livespeed fading time configurable in valhalla.json [#4177](https://github.com/valhalla/valhalla/pull/4177)
    * UPDATED: French translations, thanks to @xlqian [#4159](https://github.com/valhalla/valhalla/pull/4159)
    * CHANGED: -j flag for multithreaded executables to override mjolnir.concurrency [#4168](https://github.com/valhalla/valhalla/pull/4168)
    * CHANGED: moved the argparse boilerplate code to a private header which all programs can share [#4169](https://github.com/valhalla/valhalla/pull/4169)
@@ -31,8 +30,8 @@
    * UPDATED: submodules which had new releases, unless it was a major version change [#4231](https://github.com/valhalla/valhalla/pull/4231)
    * ADDED: the workflow to find landmarks in a graph tile, associate them with nearby edges, and update the graph tile to store the associations [#4278](https://github.com/valhalla/valhalla/pull/4278)
    * ADDED: update maneuver generation to add nearby landmarks to maneuvers as direction support [#4293](https://github.com/valhalla/valhalla/pull/4293)
-   * CHANGED: the boost property tree config is now read in to a singleton that doesn't need to be passed down anymore [#4220](https://github.com/valhalla/valhalla/pull/4220)
    * CHANGED: the boost property tree config is now read into a singleton that doesn't need to be passed around anymore [#4220](https://github.com/valhalla/valhalla/pull/4220)
+   * ADDED: Make livespeed fading time configurable in valhalla.json [#4177](https://github.com/valhalla/valhalla/pull/4177)
 
 ## Release Date: 2023-05-11 Valhalla 3.4.0
 * **Removed**
